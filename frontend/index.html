@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAYS TO DECAY — Perishable Food Aging & Remaining Shelf-Life Estimation</title>
+  <meta name="description" content="Deep learning computer vision system estimating continuous remaining shelf life of perishable food items with conformal prediction uncertainty intervals." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- Atmosphere Background Glow -->
+  <div class="bg-gradient-glow" aria-hidden="true"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="Days to Decay Home">
+        <div class="brand-icon">D</div>
+        <div class="brand-text">DAYS TO DECAY</div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#analyze" class="nav-link">Analyze</a></li>
+          <li><a href="#science" class="nav-link">Architecture</a></li>
+          <li><a href="#dataset" class="nav-link">Dataset Protocol</a></li>
+          <li><a href="#history" class="nav-link">Recent History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="status-badge" id="systemStatusBadge" title="Backend connection status">
+          <span class="status-dot" id="systemStatusDot"></span>
+          <span id="systemStatusText">Connecting...</span>
+        </div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">☀️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill">
+          🔬 Research-Grade Computer Vision Regressor
+        </div>
+        <h1 class="hero-title">
+          How much life does your<br /><span>food have left?</span>
+        </h1>
+        <p class="hero-subtitle">
+          Upload a photograph. Continuous transfer learning estimates remaining shelf life, detects surface deterioration, and generates calibrated uncertainty intervals.
+        </p>
+        <div class="hero-buttons">
+          <a href="#analyze" class="btn btn-primary">
+            <span>📷 Analyze Freshness</span>
+          </a>
+          <a href="#science" class="btn btn-secondary">
+            <span>Explore the Science</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace Section -->
+    <section class="workspace-section" id="analyze">
+      <div class="container">
+        <div class="workspace-grid">
+          
+          <!-- Left: Input Workspace -->
+          <div class="glass-card">
+            <div class="card-header">
+              <h2 class="card-title">1. Select Category & Photograph</h2>
+              <p class="card-subtitle">Choose the target food category and upload an uncompressed photo.</p>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="category-selector-group">
+              <label class="category-label">Target Perishable Category</label>
+              <div class="category-pills">
+                <label class="category-pill active">
+                  <input type="radio" name="food_category" value="banana" checked />
+                  <span class="cat-emoji">🍌</span>
+                  <span class="cat-name">Banana</span>
+                </label>
+                <label class="category-pill">
+                  <input type="radio" name="food_category" value="avocado" />
+                  <span class="cat-emoji">🥑</span>
+                  <span class="cat-name">Avocado</span>
+                </label>
+                <label class="category-pill">
+                  <input type="radio" name="food_category" value="bread" />
+                  <span class="cat-emoji">🍞</span>
+                  <span class="cat-name">Bread</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Drag & Drop Zone -->
+            <div class="dropzone" id="uploadDropzone">
+              <div class="dropzone-icon">📷</div>
+              <div class="dropzone-title">Click or drag & drop photograph</div>
+              <div class="dropzone-hint">Supports high-res JPG, PNG, WEBP (Max 10MB)</div>
+              <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display: none;" />
+            </div>
+
+            <!-- Image Preview Box -->
+            <div class="preview-container" id="previewContainer">
+              <img id="previewImage" class="preview-image" src="" alt="Selected sample preview" />
+              <div class="preview-actions">
+                <button type="button" class="btn-icon-sm" id="removeImageBtn" title="Remove image">✕ Remove</button>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="analyze-action-bar">
+              <button class="btn btn-primary btn-block" id="analyzeBtn">
+                Estimate Shelf Life
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Results Dashboard -->
+          <div class="glass-card results-card" id="resultsCard">
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay">
+              <div class="spinner"></div>
+              <div id="loadingText" style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">
+                Running ResNet50 Inference...
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Extracting browning patterns & conformal bounds</p>
+            </div>
+
+            <div class="card-header">
+              <h2 class="card-title">2. Shelf-Life Estimation</h2>
+              <p class="card-subtitle">Continuous regression output with finite-sample uncertainty bounds.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-results-state" id="emptyResultsState">
+              <div class="empty-icon">⏳</div>
+              <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">No Analysis Generated Yet</h3>
+              <p style="font-size: 0.88rem; max-width: 320px;">
+                Upload a photograph of a banana, avocado, or bread loaf to estimate its remaining useful shelf life.
+              </p>
+            </div>
+
+            <!-- Active Results Container -->
+            <div class="active-results" id="activeResults">
+              <!-- Big Countdown Banner -->
+              <div class="countdown-banner">
+                <div class="countdown-number-block">
+                  <span class="countdown-label">Estimated Remaining Life</span>
+                  <div class="countdown-digits">
+                    <span id="predictedDaysDigits">0.0</span><span>DAYS</span>
+                  </div>
+                </div>
+
+                <div class="progress-ring-container">
+                  <svg class="progress-ring" width="95" height="95">
+                    <circle class="progress-ring-bg" stroke-width="8" fill="transparent" r="40" cx="47.5" cy="47.5" />
+                    <circle class="progress-ring-bar" id="progressRingBar" stroke-width="8" fill="transparent" r="40" cx="47.5" cy="47.5" />
+                  </svg>
+                  <div class="progress-ring-icon" id="progressRingIcon">🍃</div>
+                </div>
+              </div>
+
+              <!-- Metric Grid -->
+              <div class="metric-pill-grid">
+                <div class="metric-pill">
+                  <div class="metric-pill-label">Category</div>
+                  <div class="metric-pill-value" id="resultCategory">BANANA</div>
+                  <div class="metric-pill-sub">Target Specimen</div>
+                </div>
+
+                <div class="metric-pill">
+                  <div class="metric-pill-label">Aging Stage</div>
+                  <div class="metric-pill-value" id="resultStage" style="color: var(--accent-teal);">Late Ripening</div>
+                  <div class="metric-pill-sub" id="resultCondition">Moderate Browning</div>
+                </div>
+
+                <div class="metric-pill" style="grid-column: 1 / -1;">
+                  <div class="metric-pill-label">90% Prediction Interval (Uncertainty)</div>
+                  <div class="metric-pill-value" id="resultUncertainty" style="font-family: var(--font-mono);">
+                    1.6 – 3.2 days
+                  </div>
+                  <div class="metric-pill-sub" id="resultUncertaintyMethod">
+                    Inductive Conformal Prediction (Non-conformity residual quantile)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Aging Stage Timeline -->
+              <div class="timeline-section">
+                <div class="timeline-header">Visual Aging Stage Progression</div>
+                <div class="timeline-stages">
+                  <div class="timeline-line"></div>
+                  <div class="timeline-progress" id="timelineProgress"></div>
+                  <div id="timelineStagesContainer" style="display: flex; width: 100%; justify-content: space-between; position: relative; z-index: 3;">
+                    <!-- Rendered by ui.js -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Disclaimer Box -->
+              <div class="disclaimer-box">
+                <div class="disclaimer-icon">⚠️</div>
+                <div>
+                  <strong>Scientific & Safety Notice:</strong>
+                  This prediction reflects visual surface degradation under training storage conditions. Surface appearance alone does not guarantee absence of foodborne bacteria or toxins. Discard any item with off-odors, mold, or slime.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent History Section -->
+    <section class="history-section" id="history">
+      <div class="container">
+        <h2 class="section-heading">Recent Analyses</h2>
+        <p class="section-subheading">Persisted locally in your browser session.</p>
+        <div class="history-grid" id="historyGrid">
+          <!-- Populated by ui.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Scientific Research & Methodology Section -->
+    <section class="science-section" id="science">
+      <div class="container">
+        <h2 class="section-heading">Deep Learning & Statistical Foundation</h2>
+        <p class="section-subheading">
+          Engineered for empirical continuous shelf-life regression rather than superficial discrete classification.
+        </p>
+
+        <div class="science-grid">
+          <div class="science-card">
+            <div class="science-icon">🧠</div>
+            <h3>Transfer Learning Regressor</h3>
+            <p>
+              Pretrained ImageNet backbones (ResNet50 / EfficientNet-B0) extract dense color histograms, texture gradients, and necrotic surface spots. Replaced classification heads with a continuous linear head and ReLU output to prevent impossible negative days.
+            </p>
+          </div>
+
+          <div class="science-card">
+            <div class="science-icon">📊</div>
+            <h3>Conformal Uncertainty Bounds</h3>
+            <p>
+              Single-point predictions are inherently stochastic. We use distribution-free Inductive Conformal Prediction calibrated on held-out samples. The non-conformity residual quantile guarantees rigorous 90% finite-sample coverage without fabricated intervals.
+            </p>
+          </div>
+
+          <div class="science-card">
+            <div class="science-icon">🛡️</div>
+            <h3>Zero-Leakage Group Splitting</h3>
+            <p>
+              Time-series photographs of the same physical specimen (e.g., BANANA_001 on Day 0, 1, 2...) are strictly held within the same split using GroupShuffleSplit. This prevents data leakage and eliminates artificially inflated evaluation metrics.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dataset Protocol Section -->
+    <section class="science-section" id="dataset">
+      <div class="container">
+        <h2 class="section-heading">Standardized Spoilage Endpoints</h2>
+        <p class="section-subheading">
+          Empirical criteria defining the exact termination threshold for each perishable category.
+        </p>
+
+        <div class="science-grid">
+          <div class="science-card">
+            <div class="science-icon">🍌</div>
+            <h3>Banana (Nominal: 10d)</h3>
+            <p>
+              <strong>Endpoint:</strong> Stage 7+ senescent collapse. Over 70% dark brown surface necrosis, pulp liquefaction, or microbial colonization at stem, rendering the fruit unpalatable.
+            </p>
+          </div>
+
+          <div class="science-card">
+            <div class="science-icon">🥑</div>
+            <h3>Avocado (Nominal: 8d)</h3>
+            <p>
+              <strong>Endpoint:</strong> Internal vascular browning and skin indentation collapse. Severe rancid oxidation, rancidity odor, stringy dark flesh, or mycelium emergence.
+            </p>
+          </div>
+
+          <div class="science-card">
+            <div class="science-icon">🍞</div>
+            <h3>Bread (Nominal: 6d)</h3>
+            <p>
+              <strong>Endpoint:</strong> Macroscopic fungal sporulation. First visible pinpoint colonies of Rhizopus stolonifer or Penicillium, or total starch retrogradation and unyielding crust petrification.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>DAYS TO DECAY</strong> — Computer Vision Shelf-Life Regressor v1.0.0
+      </div>
+      <div>
+        Designed for Research & Production ML Evaluation
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Script -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
