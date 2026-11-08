@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: days-to-decay
+    env: python
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: DEVICE
+        value: cpu
+      - key: MODEL_CHECKPOINT_PATH
+        value: artifacts/best_model.pth
+      - key: MODEL_METADATA_PATH
+        value: artifacts/model_metadata.json
+      - key: CALIBRATION_FILE
+        value: artifacts/calibration_residuals.json
