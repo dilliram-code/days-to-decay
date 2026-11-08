@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAYS TO DECAY — Perishable Food Aging & Remaining Shelf-Life Estimation</title>
-  <meta name="description" content="Deep learning computer vision system estimating continuous remaining shelf life of perishable food items with conformal prediction uncertainty intervals." />
-  
+  <meta name="description"
+    content="Deep learning computer vision system estimating continuous remaining shelf life of perishable food items with conformal prediction uncertainty intervals." />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
   <!-- Styles -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
   <!-- Atmosphere Background Glow -->
   <div class="bg-gradient-glow" aria-hidden="true"></div>
@@ -56,7 +61,8 @@
           How much life does your<br /><span>food have left?</span>
         </h1>
         <p class="hero-subtitle">
-          Upload a photograph. Continuous transfer learning estimates remaining shelf life, detects surface deterioration, and generates calibrated uncertainty intervals.
+          Upload a photograph. Continuous transfer learning estimates remaining shelf life, detects surface
+          deterioration, and generates calibrated uncertainty intervals!
         </p>
         <div class="hero-buttons">
           <a href="#analyze" class="btn btn-primary">
@@ -68,12 +74,11 @@
         </div>
       </div>
     </section>
-
     <!-- Main Workspace Section -->
     <section class="workspace-section" id="analyze">
       <div class="container">
         <div class="workspace-grid">
-          
+
           <!-- Left: Input Workspace -->
           <div class="glass-card">
             <div class="card-header">
@@ -135,7 +140,8 @@
               <div id="loadingText" style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">
                 Running ResNet50 Inference...
               </div>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">Extracting browning patterns & conformal bounds</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Extracting browning patterns & conformal bounds
+              </p>
             </div>
 
             <div class="card-header">
@@ -166,7 +172,8 @@
                 <div class="progress-ring-container">
                   <svg class="progress-ring" width="95" height="95">
                     <circle class="progress-ring-bg" stroke-width="8" fill="transparent" r="40" cx="47.5" cy="47.5" />
-                    <circle class="progress-ring-bar" id="progressRingBar" stroke-width="8" fill="transparent" r="40" cx="47.5" cy="47.5" />
+                    <circle class="progress-ring-bar" id="progressRingBar" stroke-width="8" fill="transparent" r="40"
+                      cx="47.5" cy="47.5" />
                   </svg>
                   <div class="progress-ring-icon" id="progressRingIcon">🍃</div>
                 </div>
@@ -203,7 +210,8 @@
                 <div class="timeline-stages">
                   <div class="timeline-line"></div>
                   <div class="timeline-progress" id="timelineProgress"></div>
-                  <div id="timelineStagesContainer" style="display: flex; width: 100%; justify-content: space-between; position: relative; z-index: 3;">
+                  <div id="timelineStagesContainer"
+                    style="display: flex; width: 100%; justify-content: space-between; position: relative; z-index: 3;">
                     <!-- Rendered by ui.js -->
                   </div>
                 </div>
@@ -214,7 +222,9 @@
                 <div class="disclaimer-icon">⚠️</div>
                 <div>
                   <strong>Scientific & Safety Notice:</strong>
-                  This prediction reflects visual surface degradation under training storage conditions. Surface appearance alone does not guarantee absence of foodborne bacteria or toxins. Discard any item with off-odors, mold, or slime.
+                  This prediction reflects visual surface degradation under training storage conditions. Surface
+                  appearance alone does not guarantee absence of foodborne bacteria or toxins. Discard any item with
+                  off-odors, mold, or slime.
                 </div>
               </div>
             </div>
@@ -248,7 +258,9 @@
             <div class="science-icon">🧠</div>
             <h3>Transfer Learning Regressor</h3>
             <p>
-              Pretrained ImageNet backbones (ResNet50 / EfficientNet-B0) extract dense color histograms, texture gradients, and necrotic surface spots. Replaced classification heads with a continuous linear head and ReLU output to prevent impossible negative days.
+              Pretrained ImageNet backbones (ResNet50 / EfficientNet-B0) extract dense color histograms, texture
+              gradients, and necrotic surface spots. Replaced classification heads with a continuous linear head and
+              ReLU output to prevent impossible negative days.
             </p>
           </div>
 
@@ -256,7 +268,9 @@
             <div class="science-icon">📊</div>
             <h3>Conformal Uncertainty Bounds</h3>
             <p>
-              Single-point predictions are inherently stochastic. We use distribution-free Inductive Conformal Prediction calibrated on held-out samples. The non-conformity residual quantile guarantees rigorous 90% finite-sample coverage without fabricated intervals.
+              Single-point predictions are inherently stochastic. We use distribution-free Inductive Conformal
+              Prediction calibrated on held-out samples. The non-conformity residual quantile guarantees rigorous 90%
+              finite-sample coverage without fabricated intervals.
             </p>
           </div>
 
@@ -264,7 +278,9 @@
             <div class="science-icon">🛡️</div>
             <h3>Zero-Leakage Group Splitting</h3>
             <p>
-              Time-series photographs of the same physical specimen (e.g., BANANA_001 on Day 0, 1, 2...) are strictly held within the same split using GroupShuffleSplit. This prevents data leakage and eliminates artificially inflated evaluation metrics.
+              Time-series photographs of the same physical specimen (e.g., BANANA_001 on Day 0, 1, 2...) are strictly
+              held within the same split using GroupShuffleSplit. This prevents data leakage and eliminates artificially
+              inflated evaluation metrics.
             </p>
           </div>
         </div>
@@ -284,7 +300,8 @@
             <div class="science-icon">🍌</div>
             <h3>Banana (Nominal: 10d)</h3>
             <p>
-              <strong>Endpoint:</strong> Stage 7+ senescent collapse. Over 70% dark brown surface necrosis, pulp liquefaction, or microbial colonization at stem, rendering the fruit unpalatable.
+              <strong>Endpoint:</strong> Stage 7+ senescent collapse. Over 70% dark brown surface necrosis, pulp
+              liquefaction, or microbial colonization at stem, rendering the fruit unpalatable.
             </p>
           </div>
 
@@ -292,7 +309,8 @@
             <div class="science-icon">🥑</div>
             <h3>Avocado (Nominal: 8d)</h3>
             <p>
-              <strong>Endpoint:</strong> Internal vascular browning and skin indentation collapse. Severe rancid oxidation, rancidity odor, stringy dark flesh, or mycelium emergence.
+              <strong>Endpoint:</strong> Internal vascular browning and skin indentation collapse. Severe rancid
+              oxidation, rancidity odor, stringy dark flesh, or mycelium emergence.
             </p>
           </div>
 
@@ -300,7 +318,8 @@
             <div class="science-icon">🍞</div>
             <h3>Bread (Nominal: 6d)</h3>
             <p>
-              <strong>Endpoint:</strong> Macroscopic fungal sporulation. First visible pinpoint colonies of Rhizopus stolonifer or Penicillium, or total starch retrogradation and unyielding crust petrification.
+              <strong>Endpoint:</strong> Macroscopic fungal sporulation. First visible pinpoint colonies of Rhizopus
+              stolonifer or Penicillium, or total starch retrogradation and unyielding crust petrification.
             </p>
           </div>
         </div>
@@ -319,9 +338,8 @@
       </div>
     </div>
   </footer>
-
   <!-- Application Script -->
   <script type="module" src="/js/app.js"></script>
 </body>
-</html>
 
+</html>
