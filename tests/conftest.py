@@ -85,3 +85,4 @@ def temp_dataset_dir(sample_pil_image: Image.Image) -> Generator[Path, None, Non
     yield temp_dir
 
     shutil.rmtree(temp_dir, ignore_errors=True)
+

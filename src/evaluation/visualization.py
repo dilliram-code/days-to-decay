@@ -143,3 +143,4 @@ def plot_error_by_category(
     plt.close(fig)
     logger.info(f"Saved category error plot to {output_path}")
     return output_path
+

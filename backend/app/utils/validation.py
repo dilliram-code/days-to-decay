@@ -72,3 +72,4 @@ async def validate_uploaded_image(file: UploadFile) -> Tuple[bytes, str]:
         )
 
     return content, ext
+

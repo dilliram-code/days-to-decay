@@ -140,3 +140,4 @@ async def get_model_info(ms: ModelService = Depends(get_model_service)) -> Model
             "They do not substitute for food microbiology testing."
         ),
     )
+

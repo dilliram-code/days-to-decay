@@ -220,3 +220,4 @@ class ModelEvaluator:
         report_md_path.write_text("\n".join(lines), encoding="utf-8")
         logger.info(f"Evaluation report written to {report_md_path}")
         return report_md_path
+

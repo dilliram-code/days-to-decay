@@ -123,3 +123,4 @@ def determine_aging_stage(food_category: str, remaining_days: float) -> Tuple[st
     
     # Fallback to the lowest stage
     return stages[-1][1], stages[-1][2]
+

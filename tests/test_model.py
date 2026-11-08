@@ -75,3 +75,4 @@ def test_regression_metrics_calculation():
     assert metrics["medae"] == 0.5
     assert metrics["within_0.5d_pct"] == 75.0  # 3 of 4 <= 0.5
     assert metrics["within_1.0d_pct"] == 100.0 # 4 of 4 <= 1.0
+

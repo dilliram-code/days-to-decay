@@ -93,3 +93,4 @@ Run the diagnostic suite to verify file existence, valid dimensions, non-negativ
 python scripts/validate_dataset.py --strict
 ```
 A markdown report is automatically generated at `reports/metrics/dataset_validation_report.md`.
+

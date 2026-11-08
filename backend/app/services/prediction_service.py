@@ -58,3 +58,4 @@ class PredictionService:
 
 
 prediction_service = PredictionService()
+

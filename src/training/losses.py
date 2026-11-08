@@ -22,3 +22,4 @@ def get_loss_function(name: str = "huber", delta: float = 1.0) -> Callable:
         return nn.L1Loss()
     else:
         raise ValueError(f"Unknown loss function '{name}'. Choose from 'huber', 'mse', 'mae'.")
+

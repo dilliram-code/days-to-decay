@@ -254,3 +254,4 @@ export const ui = {
     alert(`Prediction Notice: ${message}`);
   },
 };
+

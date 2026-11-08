@@ -121,3 +121,4 @@ class FoodAgingRegressor(nn.Module):
         # Head always trainable
         for param in self.regression_head.parameters():
             param.requires_grad = True
+

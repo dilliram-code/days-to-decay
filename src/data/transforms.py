@@ -55,3 +55,4 @@ def preprocess_pil_image(image: Image.Image, image_size: int = 224) -> Image.Ima
     if image.mode != "RGB":
         image = image.convert("RGB")
     return image.resize((image_size, image_size), Image.Resampling.BILINEAR)
+

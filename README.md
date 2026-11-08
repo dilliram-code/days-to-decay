@@ -263,3 +263,4 @@ The application serves the static frontend directly from FastAPI while respondin
 ## 10. License
 
 Released under the [MIT License](LICENSE).
+

@@ -116,3 +116,4 @@ class ModelService:
 
 # Singleton instance
 model_service = ModelService()
+

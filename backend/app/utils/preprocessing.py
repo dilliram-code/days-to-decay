@@ -17,3 +17,4 @@ def bytes_to_tensor(image_bytes: bytes, image_size: int = 224) -> Tuple[torch.Te
     transform = get_eval_transforms(image_size=image_size)
     tensor = transform(img_rgb).unsqueeze(0)  # Shape: [1, 3, 224, 224]
     return tensor, img_rgb
+

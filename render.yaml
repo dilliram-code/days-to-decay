@@ -17,3 +17,4 @@ services:
         value: artifacts/model_metadata.json
       - key: CALIBRATION_FILE
         value: artifacts/calibration_residuals.json
+
