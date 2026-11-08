@@ -1,0 +1,67 @@
+# DAYS TO DECAY - Training Configuration
+experiment:
+  name: "perishable_aging_resnet50"
+  seed: 42
+  description: "Continuous shelf-life estimation regression using ResNet50 backbone"
+
+data:
+  metadata_path: "data/metadata/dataset.csv"
+  processed_dir: "data/processed"
+  raw_dir: "data/raw"
+  categories:
+    - "banana"
+    - "avocado"
+    - "bread"
+  image_size: 224
+  splits:
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    group_column: "sample_id"
+  target_column: "remaining_days"
+  target_transform: "none" # options: "none", "log1p"
+
+model:
+  backbone: "resnet50" # options: "resnet50", "efficientnet_b0"
+  pretrained: true
+  freeze_backbone_epochs: 3
+  unfreeze_all_after_freeze: true
+  dropout_rate: 0.3
+  hidden_dim: 256
+  output_dim: 1
+  activation: "relu" # Ensure non-negative remaining days
+
+training:
+  batch_size: 16
+  num_workers: 0
+  epochs: 25
+  optimizer:
+    name: "adamw"
+    backbone_lr: 0.00005
+    head_lr: 0.0005
+    weight_decay: 0.01
+  scheduler:
+    name: "cosine"
+    t_max: 25
+    eta_min: 0.000001
+  loss:
+    name: "huber" # options: "mse", "mae", "huber"
+    delta: 1.0
+  early_stopping:
+    patience: 5
+    min_delta: 0.005
+    mode: "min"
+  device: "auto" # "auto", "cpu", "cuda", "mps"
+
+conformal:
+  enabled: true
+  confidence_level: 0.90 # 90% prediction intervals via inductive conformal prediction
+  calibration_split: "val" # calibrate uncertainty bounds on held-out validation set
+
+artifacts:
+  checkpoint_dir: "artifacts/checkpoints"
+  best_model_path: "artifacts/best_model.pth"
+  metadata_path: "artifacts/model_metadata.json"
+  history_path: "artifacts/training_history.csv"
+  calibration_path: "artifacts/calibration_residuals.json"
+  evaluation_dir: "reports"
