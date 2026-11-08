@@ -4,6 +4,14 @@ import pytest
 from fastapi.testclient import TestClient
 
 
+def test_index_serves_html(client: TestClient):
+    """Verifies that GET / serves the frontend SPA index.html."""
+    res = client.get("/")
+    assert res.status_code == 200
+    assert "DAYS TO DECAY" in res.text
+    assert "text/html" in res.headers.get("content-type", "")
+
+
 def test_health_endpoint(client: TestClient):
     """Verifies GET /health returns operational diagnostic metrics."""
     res = client.get("/health")
