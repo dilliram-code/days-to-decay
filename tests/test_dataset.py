@@ -1,5 +1,6 @@
 """Unit tests for dataset loading, transforms, and zero-leakage group splitting."""
 from pathlib import Path
+import numpy as np
 import pandas as pd
 import pytest
 import torch
