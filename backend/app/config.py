@@ -2,12 +2,13 @@
 import os
 from pathlib import Path
 from typing import List
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     APP_NAME: str = "DAYS TO DECAY"
     APP_VERSION: str = "1.0.0"
     APP_ENV: str = "development"

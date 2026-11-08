@@ -122,7 +122,12 @@ def validate_dataset(
         if not img_path_str:
             row_errors.append(f"Row {idx}: Empty image_path")
         else:
-            resolved_img_path = PROJECT_ROOT / img_path_str if not Path(img_path_str).is_absolute() else Path(img_path_str)
+            if Path(img_path_str).is_absolute():
+                resolved_img_path = Path(img_path_str)
+            elif (metadata_path.parent.parent / img_path_str).exists():
+                resolved_img_path = metadata_path.parent.parent / img_path_str
+            else:
+                resolved_img_path = PROJECT_ROOT / img_path_str
             
             # Duplicate check
             if img_path_str in seen_image_paths:
