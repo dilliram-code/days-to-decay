@@ -34,9 +34,7 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: List[str] = ["*"]
 
-    class Config:
-        env_file = ".env"
-        extra = "ignore"
+
 
 
 settings = Settings()

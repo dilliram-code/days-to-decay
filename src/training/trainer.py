@@ -245,7 +245,7 @@ class ModelTrainer:
         return {"best_val_loss": self.best_val_loss, "best_metrics": best_metrics}
 
     def calibrate_conformal_intervals(self) -> Optional[float]:
-        """
+        r"""
         Calibrates finite-sample conformal prediction bounds using validation residuals.
         
         Given miscoverage rate alpha = 1 - confidence_level (e.g. 0.10 for 90% confidence),
